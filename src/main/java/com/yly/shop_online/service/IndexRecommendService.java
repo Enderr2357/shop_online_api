@@ -2,6 +2,9 @@ package com.yly.shop_online.service;
 
 import com.yly.shop_online.entity.IndexRecommend;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yly.shop_online.vo.IndexRecommendVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IndexRecommendService extends IService<IndexRecommend> {
 
+
+    /**
+     * 首页--热门推荐
+     * @return
+     */
+    List<IndexRecommendVO> getList();
 }
