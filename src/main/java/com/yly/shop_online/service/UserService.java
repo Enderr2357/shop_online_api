@@ -4,6 +4,8 @@ import com.yly.shop_online.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yly.shop_online.query.UserLoginQuery;
 import com.yly.shop_online.vo.LoginResultVO;
+import com.yly.shop_online.vo.UserVO;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -25,4 +27,13 @@ public interface UserService extends IService<User> {
      * @return
      */
     User getUserInfo(Integer userId);
+
+    /**
+     * 修改用户信息
+     * @param userVO
+     * @return
+     */
+    UserVO editUserInfo(UserVO userVO);
+
+    String editUserAvatar(Integer userId, MultipartFile  file);
 }

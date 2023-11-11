@@ -3,6 +3,9 @@ package com.yly.shop_online.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Data
 public class LoginResultVO extends UserVO {
     @Schema(description = "用户id")
@@ -17,4 +20,6 @@ public class LoginResultVO extends UserVO {
     private String avatar;
     @Schema(description = "账号")
     private String account;
+    @Schema(description = "生日")
+    private Timestamp birthday;
 }
