@@ -2,6 +2,7 @@ package com.yly.shop_online.service;
 
 import com.yly.shop_online.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yly.shop_online.vo.CategoryVO;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface CategoryService extends IService<Category> {
      * @return
      */
     List<Category> getIndexCategoryList();
+
+    List<CategoryVO> getCategoryList();
 }

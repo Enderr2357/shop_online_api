@@ -1,7 +1,7 @@
 package com.yly.shop_online.mapper;
 
-import com.yly.shop_online.entity.IndexRecommend;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yly.shop_online.entity.IndexRecommend;
 
 /**
  * <p>
