@@ -3,6 +3,8 @@ package com.yly.shop_online.service;
 import com.yly.shop_online.entity.IndexCarousel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IndexCarouselService extends IService<IndexCarousel> {
 
+    /**
+     * 首页轮播图查询
+     * @param distributionSite
+     * @return
+     */
+    List<IndexCarousel> getList(Integer distributionSite);
 }
