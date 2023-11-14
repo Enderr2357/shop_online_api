@@ -1,7 +1,11 @@
 package com.yly.shop_online.service;
 
-import com.yly.shop_online.entity.UserShoppingCart;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yly.shop_online.entity.UserShoppingCart;
+import com.yly.shop_online.query.CartQuery;
+import com.yly.shop_online.vo.CartGoodsVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,20 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-11-09
  */
 public interface UserShoppingCartService extends IService<UserShoppingCart> {
+
+    /**
+     * 添加购物车
+     * @param query
+     * @return
+     */
+    CartGoodsVO addShopCart(CartQuery query);
+
+    /**
+     * 购物车列表
+     * @param userId
+     * @return
+     */
+    List<CartGoodsVO> shopCartList(Integer userId);
+
 
 }

@@ -2,7 +2,6 @@ package com.yly.shop_online.controller;
 
 import com.yly.shop_online.common.exception.ServerException;
 import com.yly.shop_online.common.result.Result;
-import com.yly.shop_online.query.AddressQuery;
 import com.yly.shop_online.service.UserShippingAddressService;
 import com.yly.shop_online.vo.AddressVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,17 +62,15 @@ public class UserShippingAddressController {
 
     @Operation(summary = "获取指定地址详情")
     @GetMapping("address/detail")
-    public Result<AddressVO> getAddressDetail(AddressQuery query){
-        Integer addressId=query.getAddressId();
-        AddressVO addressVO=userShippingAddressService.getAddressDetail(addressId);
+    public Result<AddressVO> getAddressDetail(@RequestParam Integer id,HttpServletRequest request){
+        AddressVO addressVO=userShippingAddressService.getAddressDetail(id);
         return Result.ok(addressVO);
     }
 
     @Operation(summary = "删除指定地址")
     @DeleteMapping("address")
-    public Result<String> deleteById(AddressQuery query){
-        Integer addressId=query.getAddressId();
-        String result= userShippingAddressService.DeleteAddressById(addressId);
+    public Result<String> deleteById(@RequestParam Integer id,HttpServletRequest request){
+        String result= userShippingAddressService.DeleteAddressById(id);
         return Result.ok(result);
     }
 }
