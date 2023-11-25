@@ -2,7 +2,9 @@ package com.yly.shop_online.controller;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.yly.shop_online.common.exception.ServerException;
+import com.yly.shop_online.common.result.PageResult;
 import com.yly.shop_online.common.result.Result;
+import com.yly.shop_online.query.OrderQuery;
 import com.yly.shop_online.service.UserOrderService;
 import com.yly.shop_online.vo.OrderDetailVO;
 import com.yly.shop_online.vo.OrderPreQuery;
@@ -71,5 +73,13 @@ public class UserOrderController {
         }
         SubmitOrderVO repurchaseOrderDetail = userOrderService.getRepurchaseOrderDetail(id);
         return Result.ok(repurchaseOrderDetail);
+    }
+    @Operation(summary = "订单列表")
+    @PostMapping("page")
+    public Result<PageResult<OrderDetailVO>> getOrderList(@RequestBody @Validated OrderQuery query, HttpServletRequest request) {
+        Integer userId = getUserId(request);
+        query.setUserId(userId);
+        PageResult<OrderDetailVO> orderList = userOrderService.getOrderList(query);
+        return Result.ok(orderList);
     }
 }

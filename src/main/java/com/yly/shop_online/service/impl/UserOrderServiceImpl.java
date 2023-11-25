@@ -338,9 +338,19 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
         //5、查询订单对应的商品信息和收货信息
         for (UserOrder userOrder:orderRecords){
             OrderDetailVO orderDetailVO=UserOrderDetailConvert.INSTANCE.convertToOrderDetailVo(userOrder);
-            UserShippingAddress userShippingAddress=userShippingAddressMapper
+            UserShippingAddress userShippingAddress=userShippingAddressMapper.selectById(userOrder.getAddressId());
+            if(userShippingAddress!=null){
+                orderDetailVO.setReceiverContact(userShippingAddress.getReceiver());
+                orderDetailVO.setReceiverAddress(userShippingAddress.getAddress());
+                orderDetailVO.setReceiverMobile(userShippingAddress.getContact());
+            }
+            List<UserOrderGoods> userOrderGoods=userOrderGoodsMapper.selectList(new LambdaQueryWrapper<UserOrderGoods>()
+                    .eq(UserOrderGoods::getOrderId,userOrder.getId());
+
+            orderDetailVO.setSkus(userOrderGoods);
+            list.add(orderDetailVO);
         }
-        return null;
+        return new PageResult<>(page.getTotal(),query.getPageSize(),query.getPage(),page.getPages(),list);
     }
 
 }
