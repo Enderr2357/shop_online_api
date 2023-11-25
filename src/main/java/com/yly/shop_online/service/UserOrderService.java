@@ -75,4 +75,11 @@ public interface UserOrderService extends IService<UserOrder> {
      * @param ids
      */
     void deleteOrder(List<Integer> ids, Integer userId);
+    /**
+     * 模拟发货
+     *
+     * @param id
+     * @return
+     */
+    void consignOrder(Integer id);
 }
