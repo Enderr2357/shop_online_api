@@ -7,10 +7,7 @@ import com.yly.shop_online.common.result.Result;
 import com.yly.shop_online.query.CancelGoodsQuery;
 import com.yly.shop_online.query.OrderQuery;
 import com.yly.shop_online.service.UserOrderService;
-import com.yly.shop_online.vo.OrderDetailVO;
-import com.yly.shop_online.vo.OrderPreQuery;
-import com.yly.shop_online.vo.SubmitOrderVO;
-import com.yly.shop_online.vo.UserOrderVO;
+import com.yly.shop_online.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -124,5 +121,14 @@ public class UserOrderController {
         }
         userOrderService.payOrder(id);
         return Result.ok();
+    }
+    @Operation(summary = "获取物流信息")
+    @GetMapping("logistics")
+    public Result<OrderLogisticVO> getOrderLogistics(@RequestParam Integer id) {
+        if (id == null) {
+            throw new ServerException("订单不存在");
+        }
+        OrderLogisticVO orderLogistics = userOrderService.getOrderLogistics(id);
+        return Result.ok(orderLogistics);
     }
 }

@@ -5,10 +5,7 @@ import com.yly.shop_online.common.result.PageResult;
 import com.yly.shop_online.entity.UserOrder;
 import com.yly.shop_online.query.CancelGoodsQuery;
 import com.yly.shop_online.query.OrderQuery;
-import com.yly.shop_online.vo.OrderDetailVO;
-import com.yly.shop_online.vo.OrderPreQuery;
-import com.yly.shop_online.vo.SubmitOrderVO;
-import com.yly.shop_online.vo.UserOrderVO;
+import com.yly.shop_online.vo.*;
 
 import java.util.List;
 
@@ -95,4 +92,11 @@ public interface UserOrderService extends IService<UserOrder> {
      * @param id
      */
     void payOrder(Integer id);
+    /**
+     * 物流订单信息
+     *
+     * @param id
+     * @return
+     */
+    OrderLogisticVO getOrderLogistics(Integer id);
 }
