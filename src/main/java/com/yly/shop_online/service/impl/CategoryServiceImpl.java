@@ -53,10 +53,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         //查询该分类下的子分类
         LambdaQueryWrapper<Goods> goodsqueryWrapper=new LambdaQueryWrapper<>();
         for (Category category:categories){
-            CategoryVO categoryVO=new CategoryVO();
-            categoryVO.setId(category.getId());
-            categoryVO.setName(category.getName());
-            categoryVO.setIcon(category.getIcon());
+            CategoryVO categoryVO = new CategoryVO();
+            if(category.getParentId()==0) {
+
+                categoryVO.setId(category.getId());
+                categoryVO.setName(category.getName());
+                categoryVO.setIcon(category.getIcon());
+            }
             queryWrapper.clear();
             queryWrapper.eq(Category::getParentId,category.getId());
             List<Category> childCategories = baseMapper.selectList(queryWrapper);

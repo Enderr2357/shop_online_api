@@ -89,6 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UserTokenVO tokenVO=new UserTokenVO(userVO.getId());
         String token = JWTUtils.generateToken(JWT_SECRET,tokenVO.toMap());
         redisService.set(APP_NAME+userVO.getId(),token,APP_TOKEN_EXPIRE_TIME);
+        userVO.setToken(token);
         return userVO;
 
     }
@@ -119,6 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String endpoint = fileResource.getEndpoint();
         String accessKeyId = aliyunResource.getAccessKeyId();
         String accessKeySecret = aliyunResource.getAccessKeySecret();
+        String ossHost= fileResource.getOssHost();
         //创建OSSClient实例
         OSS ossClient = new OSSClientBuilder().build(endpoint,accessKeyId,accessKeySecret);
         String filename=file.getOriginalFilename();
@@ -144,7 +146,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(user==null){
             throw new ServerException("用户不存在");
         }
-        uploadFileName=fileResource.getHost()+uploadFileName;
+        uploadFileName=fileResource.getOssHost()+"/"+uploadFileName;
         user.setAvatar(uploadFileName);
         baseMapper.updateById(user);
         return uploadFileName;

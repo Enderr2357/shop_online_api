@@ -9,6 +9,7 @@ import com.yly.shop_online.enums.AddressDefaultEnum;
 import com.yly.shop_online.mapper.UserShippingAddressMapper;
 import com.yly.shop_online.service.UserShippingAddressService;
 import com.yly.shop_online.vo.AddressVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.List;
 @Service
 public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddressMapper, UserShippingAddress> implements UserShippingAddressService {
 
+    @Autowired
+    private  UserShippingAddressMapper userShippingAddressMapper;
     @Override
     public Integer saveShippingAddress(AddressVO addressVO) {
 
@@ -84,4 +87,6 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
         removeById(addressId);
         return "删除成功";
     }
+
+
 }

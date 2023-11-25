@@ -10,6 +10,7 @@ import java.util.List;
 public class CategoryVO {
     @Schema(description = "主键id")
     private Integer id;
+
     @Schema(description = "分类名称")
     private String name;
     @JsonProperty("picture")

@@ -16,6 +16,7 @@ import com.yly.shop_online.vo.IndexTabGoodsVO;
 import com.yly.shop_online.vo.IndexTabRecommendVO;
 import com.yly.shop_online.vo.RecommendGoodsVO;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.List;
  * @since 2023-11-09
  */
 @Service
+@Slf4j
 @AllArgsConstructor
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
 
@@ -61,7 +63,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             tabGoods.setId(item.getId());
             tabGoods.setName(item.getName());
             Page<Goods> page = new Page<>(query.getPage(), query.getPageSize());
-            Page<Goods> goodsPage = baseMapper.selectPage(page, new LambdaQueryWrapper<Goods>().eq(Goods::getId, item.getId()));
+            Page<Goods> goodsPage = baseMapper.selectPage(page, new LambdaQueryWrapper<Goods>().eq(Goods::getTabId, item.getRecommendId()));
             List<RecommendGoodsVO> goodsList = GoodsConvert.INSTANCE.convertToRecommendGoodsVOList(goodsPage.getRecords());
             PageResult<RecommendGoodsVO> result = new PageResult<>(page.getTotal(), query.getPageSize(), query.getPage(), page.getPages(), goodsList);
             tabGoods.setGoodsItems(result);
@@ -101,8 +103,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goodsVO.setSpecs(specificationsList);
         //商品规格详情
         List<GoodsSpecificationDetail> goodsSpecificationDetailList=goodsSpecificationDetailMapper.selectList(new LambdaQueryWrapper<GoodsSpecificationDetail>()
-                .eq(GoodsSpecificationDetail::getId,goods.getId()));
+                .eq(GoodsSpecificationDetail::getGoodsId,goods.getId()));
         goodsVO.setSkus(goodsSpecificationDetailList);
+        log.info("Skus列表里的信息为 :{}",goodsSpecificationDetailList);
         //查找同类商品,去除自身
         List<Goods> goodsList = baseMapper.selectList(new LambdaQueryWrapper<Goods>().eq(Goods::getCategoryId,goods.getCategoryId()).ne(Goods::getId,goods.getId()));
         List<RecommendGoodsVO> recommendGoodsVOList=GoodsConvert.INSTANCE.convertToRecommendGoodsVOList(goodsList);
