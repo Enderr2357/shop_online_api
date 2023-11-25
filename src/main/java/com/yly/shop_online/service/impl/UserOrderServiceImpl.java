@@ -10,6 +10,7 @@ import com.yly.shop_online.convert.UserOrderDetailConvert;
 import com.yly.shop_online.entity.*;
 import com.yly.shop_online.enums.OrderStatusEnum;
 import com.yly.shop_online.mapper.*;
+import com.yly.shop_online.query.CancelGoodsQuery;
 import com.yly.shop_online.query.OrderGoodsQuery;
 import com.yly.shop_online.query.OrderQuery;
 import com.yly.shop_online.service.UserOrderGoodsService;
@@ -345,12 +346,43 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
                 orderDetailVO.setReceiverMobile(userShippingAddress.getContact());
             }
             List<UserOrderGoods> userOrderGoods=userOrderGoodsMapper.selectList(new LambdaQueryWrapper<UserOrderGoods>()
-                    .eq(UserOrderGoods::getOrderId,userOrder.getId());
+                    .eq(UserOrderGoods::getOrderId,userOrder.getId()));
 
             orderDetailVO.setSkus(userOrderGoods);
             list.add(orderDetailVO);
         }
         return new PageResult<>(page.getTotal(),query.getPageSize(),query.getPage(),page.getPages(),list);
+    }
+
+    @Override
+    public OrderDetailVO cancelOrder(CancelGoodsQuery query) {
+
+        //1、查询订单是否存在
+        UserOrder userOrder=baseMapper.selectById(query.getId());
+        if(userOrder==null){
+            throw new ServerException("订单信息不存在");
+        }
+        //2、只有是未付款的订单才能取消
+        if(userOrder.getStatus()!=OrderStatusEnum.WAITING_FOR_PAYMENT.getValue()){
+            throw new ServerException("订单已付款,取消失败");
+        }
+        //3、修改订单状态
+        userOrder.setStatus(OrderStatusEnum.CANCELLED.getValue());
+        userOrder.setCancelReason(query.getCancelReason());
+        userOrder.setCloseTime(LocalDateTime.now());
+        baseMapper.updateById(userOrder);
+        OrderDetailVO orderDetailVO =UserOrderDetailConvert.INSTANCE.convertToOrderDetailVo(userOrder);
+        //4、查询订单地址信息
+        UserShippingAddress userShippingAddress=userShippingAddressMapper.selectById(userOrder.getAddressId());
+        if (userShippingAddress!=null){
+            orderDetailVO.setReceiverMobile(userShippingAddress.getContact());
+            orderDetailVO.setReceiverContact(userShippingAddress.getReceiver());
+            orderDetailVO.setReceiverAddress(userShippingAddress.getAddress());
+        }
+        //5、查询购买的商品列表返回给客户端
+        List<UserOrderGoods> goodsList=userOrderGoodsMapper.selectList(new LambdaQueryWrapper<UserOrderGoods>().eq(UserOrderGoods::getOrderId,userOrder.getId()));
+        orderDetailVO.setSkus(goodsList);
+        return orderDetailVO;
     }
 
 }

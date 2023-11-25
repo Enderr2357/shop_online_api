@@ -3,6 +3,7 @@ package com.yly.shop_online.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yly.shop_online.common.result.PageResult;
 import com.yly.shop_online.entity.UserOrder;
+import com.yly.shop_online.query.CancelGoodsQuery;
 import com.yly.shop_online.query.OrderQuery;
 import com.yly.shop_online.vo.OrderDetailVO;
 import com.yly.shop_online.vo.OrderPreQuery;
@@ -59,4 +60,11 @@ public interface UserOrderService extends IService<UserOrder> {
      * @return
      */
     PageResult<OrderDetailVO> getOrderList(OrderQuery query);
+    /**
+     * 取消订单
+     *
+     * @param query
+     * @return
+     */
+    OrderDetailVO cancelOrder(CancelGoodsQuery query);
 }
