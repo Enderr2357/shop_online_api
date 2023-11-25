@@ -1,7 +1,7 @@
 package com.yly.shop_online.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.soft2242.shop.common.utils.DateUtils;
+import com.yly.shop_online.common.utils.DateUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

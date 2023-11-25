@@ -27,7 +27,7 @@ import static com.yly.shop_online.common.utils.ObtainUserIdUtils.getUserId;
  * @since 2023-11-09
  */
 @RestController
-@RequestMapping("/userOrder")
+@RequestMapping("/order")
 @AllArgsConstructor
 public class UserOrderController {
 

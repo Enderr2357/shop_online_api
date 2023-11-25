@@ -99,6 +99,8 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
         }
         userOrder.setPayType(orderVO.getPayType());
         userOrder.setPayChannel(orderVO.getPayChannel());
+        baseMapper.insert(userOrder);
+        scheduleOrderCancel(userOrder);
         List<UserOrderGoods> orderGoodsList=new ArrayList<>();
         for (OrderGoodsQuery goodsVO:orderVO.getGoods()){
             Goods goods = goodsMapper.selectById(goodsVO.getId());
@@ -393,7 +395,7 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
         //仅在订单状态为 待评价、已完成、已取消时,可删除订单
         LambdaQueryWrapper<UserOrder> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(UserOrder::getUserId,userId);
-        queryWrapper.eq(UserOrder::getStatus,OrderStatusEnum.WAITING_FOR_REVIEW.getName()).or()
+        queryWrapper.eq(UserOrder::getStatus,OrderStatusEnum.WAITING_FOR_REVIEW.getValue()).or()
                 .eq(UserOrder::getStatus,OrderStatusEnum.CANCELLED.getValue()).or()
                 .eq(UserOrder::getStatus,OrderStatusEnum.COMPLETED.getValue());
         List<UserOrder> userOrders=baseMapper.selectList(queryWrapper);

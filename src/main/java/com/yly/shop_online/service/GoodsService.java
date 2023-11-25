@@ -39,4 +39,5 @@ public interface GoodsService extends IService<Goods> {
      * @return
      */
     GoodsVO getGoodsDetail(Integer id);
+
 }

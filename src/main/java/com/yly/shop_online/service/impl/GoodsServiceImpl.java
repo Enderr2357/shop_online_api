@@ -36,6 +36,7 @@ import java.util.List;
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
 
 
+    private CategoryMapper categoryMapper;
     private IndexRecommendMapper indexRecommendMapper;
     private IndexRecommendTabMapper indexRecommendTabMapper;
     private GoodsDetailMapper goodsDetailMapper;
@@ -112,5 +113,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goodsVO.setSimilarProducts(recommendGoodsVOList);
         return goodsVO;
     }
+
+
 }
 
