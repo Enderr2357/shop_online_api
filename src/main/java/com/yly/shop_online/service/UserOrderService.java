@@ -10,6 +10,8 @@ import com.yly.shop_online.vo.OrderPreQuery;
 import com.yly.shop_online.vo.SubmitOrderVO;
 import com.yly.shop_online.vo.UserOrderVO;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -67,4 +69,10 @@ public interface UserOrderService extends IService<UserOrder> {
      * @return
      */
     OrderDetailVO cancelOrder(CancelGoodsQuery query);
+    /**
+     * 删除订单
+     *
+     * @param ids
+     */
+    void deleteOrder(List<Integer> ids, Integer userId);
 }
